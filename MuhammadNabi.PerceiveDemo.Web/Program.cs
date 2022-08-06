@@ -1,6 +1,17 @@
+using MongoDB.Driver;
+using MuhammadNabi.PerceiveDemo.Web.Models.Settings;
+using MuhammadNabi.PerceiveDemo.Web.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.Configure<PerceiveDatabaseSettings>(
+    builder.Configuration.GetSection(nameof(PerceiveDatabaseSettings)));
+
+builder.Services.AddSingleton<IMongoClient>(s =>
+        new MongoClient(builder.Configuration.GetValue<string>("PerceiveDatabaseSettings:ConnectionString")));
+
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddControllersWithViews();
 
