@@ -38,7 +38,7 @@ namespace MuhammadNabi.PerceiveDemo.Web.Services.Implementations
             await _usersCollection.DeleteOneAsync(x => x.Id == id);
 
         public async Task<bool> IsUserNameUnique(string userName) =>
-            await _usersCollection.Find(x => x.UserName == userName).AnyAsync();
+            !await _usersCollection.Find(x => x.UserName == userName).AnyAsync();
 
         public async Task<RegistrationResponseDto> RegisterUser(RegisterUserDto userVm)
         {
@@ -49,7 +49,7 @@ namespace MuhammadNabi.PerceiveDemo.Web.Services.Implementations
 
             // password strength check
             if (!IsPasswordStrong(userVm.Password))
-                errors.Add("Password is not strong enough.");
+                errors.Add("Password is not strong enough. It should be at least 8 characters long 2 letters 2 digits 1 Upper case 1 Lower case 1 Symbol");
 
             if (errors.Any())
                 return new RegistrationResponseDto { Errors = errors };

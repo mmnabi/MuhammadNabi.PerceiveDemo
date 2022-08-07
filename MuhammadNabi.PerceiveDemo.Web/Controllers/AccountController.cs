@@ -7,7 +7,7 @@ namespace MuhammadNabi.PerceiveDemo.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AccountController : BaseController<UsersController>
+    public class AccountController : BaseController<AccountController>
     {
         private readonly IUserService _userService;
 

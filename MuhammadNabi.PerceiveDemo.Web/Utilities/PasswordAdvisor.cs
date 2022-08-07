@@ -22,6 +22,9 @@ namespace MuhammadNabi.PerceiveDemo.Web.Utilities
                 return PasswordScore.Blank;
             if (password.Length < 4)
                 return PasswordScore.VeryWeak;
+            
+            if (Regex.Match(password, @"^(?=(.*\d){2})(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}$", RegexOptions.ECMAScript).Success)
+                return PasswordScore.Medium;
 
             if (password.Length >= 8)
                 score++;
@@ -32,8 +35,8 @@ namespace MuhammadNabi.PerceiveDemo.Web.Utilities
             if (Regex.Match(password, @"/[a-z]/", RegexOptions.ECMAScript).Success &&
               Regex.Match(password, @"/[A-Z]/", RegexOptions.ECMAScript).Success)
                 score++;
-            if (Regex.Match(password, @"/.[!,@,#,$,%,^,&,*,?,_,~,-,£,(,)]/", RegexOptions.ECMAScript).Success)
-                score++;
+            //if (Regex.Match(password, @"/.[!,@,#,$,%,^,&,*,?,_,~,-,£,(,)]/", RegexOptions.ECMAScript).Success)
+            //    score++;
 
             return (PasswordScore)score;
         }
