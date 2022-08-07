@@ -2,10 +2,11 @@
 using MongoDB.Driver;
 using MuhammadNabi.PerceiveDemo.Web.Models.DbModels;
 using MuhammadNabi.PerceiveDemo.Web.Models.Settings;
+using MuhammadNabi.PerceiveDemo.Web.Services.Abstractions;
 
-namespace MuhammadNabi.PerceiveDemo.Web.Services
+namespace MuhammadNabi.PerceiveDemo.Web.Services.Implementations
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IMongoCollection<User> _usersCollection;
 

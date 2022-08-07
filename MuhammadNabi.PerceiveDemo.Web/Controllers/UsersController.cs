@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MuhammadNabi.PerceiveDemo.Web.Models.DbModels;
-using MuhammadNabi.PerceiveDemo.Web.Services;
+using MuhammadNabi.PerceiveDemo.Web.Services.Abstractions;
 
 namespace MuhammadNabi.PerceiveDemo.Web.Controllers
 {
@@ -8,9 +8,9 @@ namespace MuhammadNabi.PerceiveDemo.Web.Controllers
     [Route("api/[controller]")]
     public class UsersController : BaseController<UsersController>
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public UsersController(UserService userService)
+        public UsersController(IUserService userService)
         {
             _userService = userService;
         }

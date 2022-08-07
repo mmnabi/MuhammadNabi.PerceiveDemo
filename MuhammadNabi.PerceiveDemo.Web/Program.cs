@@ -1,6 +1,7 @@
 using MongoDB.Driver;
 using MuhammadNabi.PerceiveDemo.Web.Models.Settings;
-using MuhammadNabi.PerceiveDemo.Web.Services;
+using MuhammadNabi.PerceiveDemo.Web.Services.Abstractions;
+using MuhammadNabi.PerceiveDemo.Web.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,7 @@ builder.Services.Configure<PerceiveDatabaseSettings>(
 builder.Services.AddSingleton<IMongoClient>(s =>
         new MongoClient(builder.Configuration.GetValue<string>("PerceiveDatabaseSettings:ConnectionString")));
 
-builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllersWithViews();
 
