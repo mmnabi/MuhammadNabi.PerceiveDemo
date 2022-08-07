@@ -1,4 +1,5 @@
 ﻿using MuhammadNabi.PerceiveDemo.Web.Models.DbModels;
+using MuhammadNabi.PerceiveDemo.Web.Models.ViewModels;
 
 namespace MuhammadNabi.PerceiveDemo.Web.Services.Abstractions
 {
@@ -9,5 +10,7 @@ namespace MuhammadNabi.PerceiveDemo.Web.Services.Abstractions
         Task<User> GetAsync(string id);
         Task RemoveAsync(string id);
         Task UpdateAsync(string id, User updatedUser);
+
+        Task<RegistrationResponseDto> RegisterUser(RegisterUserDto userVm);
     }
 }
