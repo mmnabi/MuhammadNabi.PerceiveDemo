@@ -7,49 +7,40 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class ErrorHandlerService implements HttpInterceptor {
+export class ErrorHandlerService {
+  public errorMessage: string = '';
 
   constructor(private router: Router) { }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          let errorMessage = this.handleError(error);
-          return throwError(() => new Error(errorMessage));
-        })
-      )
-  }
 
-  private handleError = (error: HttpErrorResponse): string => {
-    if (error.status === 404) {
-      return this.handleNotFound(error);
+  public handleError = (error: HttpErrorResponse) => {
+    if (error.status === 500) {
+      this.handle500Error(error);
     }
-    else if (error.status === 400) {
-      return this.handleBadRequest(error);
+    else if (error.status === 404) {
+      this.handle404Error(error)
     }
     else {
-      return this.handleBadRequest(error);
+      this.handleOtherError(error);
     }
   }
 
-  private handleNotFound = (error: HttpErrorResponse): string => {
+  private handle500Error = (error: HttpErrorResponse) => {
+    this.createErrorMessage(error);
+    this.router.navigate(['/500']);
+  }
+
+  private handle404Error = (error: HttpErrorResponse) => {
+    this.createErrorMessage(error);
     this.router.navigate(['/404']);
-    return error.message;
   }
 
-  private handleBadRequest = (error: HttpErrorResponse): string => {
-    if (this.router.url === '/authentication/register') {
-      let message = '';
-      const values: any = Object.values(error.error.errors);
-      values.map((m: string) => {
-        message += m + '<br>';
-      })
+  private handleOtherError = (error: HttpErrorResponse) => {
+    this.createErrorMessage(error);
+    //TODO: this will be fixed later;
+  }
 
-      return message.slice(0, -4);
-    }
-    else {
-      return error.error ? error.error : error.message;
-    }
+  private createErrorMessage(error: HttpErrorResponse) {
+    this.errorMessage = error.error ? error.error : error.statusText;
   }
 }

@@ -1,0 +1,18 @@
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+  <mat-card fxFlex="500px" fxFlex.xs="100%">
+    <mat-card-title>Details for the clicked user</mat-card-title>
+    <mat-card-content>
+      <div fxLayout="column wrap" fxLayoutGap="40px">
+        <div fxLayout="row wrap" fxFlex>
+          <div fxFlex><strong>Username:</strong></div>
+          <div fxFlex>{{user?.userName}}</div>
+        </div>
+
+        <div fxLayout="row wrap" fxFlex>
+          <div fxFlex><strong>Date of birth:</strong></div>
+          <div fxFlex>{{user?.dateOfBirth | date}}</div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>

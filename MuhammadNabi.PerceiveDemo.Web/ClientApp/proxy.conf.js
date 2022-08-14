@@ -7,6 +7,8 @@ const PROXY_CONFIG = [
   {
     context: [
       "/api/account",
+      "/api/users",
+      "/favicon.ico",
    ],
     target: target,
     secure: false,
