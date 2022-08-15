@@ -1,54 +1,47 @@
-<div class="card">
-  <div class="card-body">
-    <h1 class="card-title">Register</h1>
-    <div *ngIf="showError" class="alert alert-danger" role="alert">
-      <span [innerHTML]="errorMessage"></span>
-    </div>
-    <form [formGroup]="registerForm" autocomplete="off" novalidate (ngSubmit)="registerUser(registerForm.value)">
-      <div class="mb-3 row">
-        <label for="userName" class="col-form-label col-sm-2">Username:</label>
-        <div class="col-md-5">
-          <input type="text" id="userName" formControlName="userName" class="form-control" />
-        </div>
-        <div class="col-md-5">
-          <em *ngIf="validateControl('userName') && hasError('userName', 'required')">Username is required</em>
-        </div>
-      </div>
-      <div class="mb-3 row">
-        <label for="email" class="col-form-label col-sm-2">Email:</label>
-        <div class="col-md-5">
-          <input type="email" id="email" formControlName="email" class="form-control" />
-        </div>
-        <div class="col-md-5">
-          <em *ngIf="validateControl('email') && hasError('email', 'email')">Please provide a valid email</em>
-          <em *ngIf="validateControl('email') && hasError('email', 'required')">Email is required</em>
-        </div>
-      </div>
-      <div class="mb-3 row">
-        <label for="password" class="col-form-label col-sm-2">Password:</label>
-        <div class="col-md-5">
-          <input type="password" id="password" formControlName="password" class="form-control" />
-        </div>
-        <div class="col-md-5">
-          <em *ngIf="validateControl('password') && hasError('password', 'required')">Password is required</em>
-        </div>
-      </div>
-      <div class="mb-3 row">
-        <label for="confirm" class="col-form-label col-sm-2">Confirm Password:</label>
-        <div class="col-md-5">
-          <input type="password" id="confirm" formControlName="confirm" class="form-control" />
-        </div>
-        <div class="col-md-5">
-          <em *ngIf="validateControl('confirm') && hasError('confirm', 'required')">Confirmation is required</em>
-          <em *ngIf="hasError('confirm', 'mustMatch')">Passwords must match</em>
-        </div>
-      </div>
-      <br>
-      <div class="mb-3 row">
-        <div class="col-md-1">
-          <button type="submit" class="btn btn-info" [disabled]="!registerForm.valid">Register</button>
-        </div>
-      </div>
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+  <mat-card fxFlex="500px" fxFlex.xs="100%">
+    <mat-card-title>Register as a new User</mat-card-title>
+    <form [formGroup]="registerForm" autocomplete="off" novalidate (ngSubmit)="registerUser(registerForm.value)" fxLayout="column wrap"
+          fxLayoutAlign="center center" fxLayoutGap="10px">
+      <mat-card-content>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Usernname" formControlName="userName" id="userName">
+          <mat-hint align="end">Username must be unique</mat-hint>
+          <mat-error *ngIf="validateControl('userName') && hasError('userName', 'required')">Name is required</mat-error>
+          <!--<mat-error *ngIf="hasError('userName', 'maxlength')">You have more than 60 characters</mat-error>-->
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput [matDatepicker]="dateOfBirthPicker" placeholder="Choose a date of birth" formControlName="dateOfBirth" id="dateOfBirth"
+                 readonly (click)="dateOfBirthPicker.open()">
+          <mat-datepicker-toggle matSuffix [for]="dateOfBirthPicker"></mat-datepicker-toggle>
+          <mat-datepicker #dateOfBirthPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput type="text" placeholder="Email" formControlName="email">
+          <mat-hint align="end">Not more then 100 characters long.</mat-hint>
+          <mat-error *ngIf="hasError('email', 'email')">Please provide a valid email</mat-error>
+          <mat-error *ngIf="hasError('email', 'required')">Email is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput type="password" placeholder="Password" formControlName="password" id="password">
+          <mat-hint align="end">Please provide a strong Password</mat-hint>
+          <mat-error *ngIf="validateControl('password') && hasError('password', 'required')">Password is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput type="password" placeholder="Confirm Password" formControlName="confirm" id="confirm">
+          <mat-hint align="end">Both password should be same</mat-hint>
+          <mat-error *ngIf="validateControl('confirm') && hasError('confirm', 'required')">Password Confirmation is required</mat-error>
+          <mat-error *ngIf="hasError('confirm', 'mustMatch')">Passwords must match</mat-error>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-raised-button color="primary" [disabled]="!registerForm.valid">Create</button>
+        <button type="button" mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+      </mat-card-actions>
     </form>
-  </div>
-</div>
+  </mat-card>
+</section>

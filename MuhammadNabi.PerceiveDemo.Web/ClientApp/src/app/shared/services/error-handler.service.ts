@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ErrorHandlerService {
   public errorMessage: string = '';
+  public dialogConfig: any;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private dialog: MatDialog) { }
 
 
   public handleError = (error: HttpErrorResponse) => {
@@ -37,10 +38,24 @@ export class ErrorHandlerService {
 
   private handleOtherError = (error: HttpErrorResponse) => {
     this.createErrorMessage(error);
-    //TODO: this will be fixed later;
+    this.dialogConfig.data = { 'errorMessage': this.errorMessage };
+    this.dialog.open(ErrorDialogComponent, this.dialogConfig);
   }
 
   private createErrorMessage(error: HttpErrorResponse) {
-    this.errorMessage = error.error ? error.error : error.statusText;
+    //this.errorMessage = error.error ? error.error : error.statusText;
+    console.log(error);
+    let message = '';
+    if (this.router.url === '/authentication/register') {
+      const values: any[] = Object.values(error.error.errors);
+      values.map((m: string) => {
+        message += m + '<br>';
+      })
+      message = message.slice(0, -4);
+    }
+    else {
+      message = error.error ? error.error.errors.join("<br>") : error.statusText;
+    }
+    this.errorMessage = message;
   }
 }

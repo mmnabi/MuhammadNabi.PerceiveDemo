@@ -3,5 +3,5 @@ export interface UserForRegistrationDto {
   password: string;
   confirmPassword: string;
   email: string;
-  dateOfBirth: string;
+  dateOfBirth: Date;
 }
